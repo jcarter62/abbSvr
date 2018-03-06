@@ -1,5 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const winston = require('winston');
+
+const logger = new ( winston.Logger ) (
+  {
+    transports: [
+      new (winston.transports.Console) ()
+    ]
+  }
+);
+
 const bodyParser = require('body-parser');
 
 const axios = require('axios');
@@ -13,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let logOrigin = function( req, res, next ) {
-  console.log('Origin:' + req.headers.origin);
+  logger.log('info', '%s Origin:%s, URL:%s ', new Date() , req.headers.origin, req.url );
   next();
 };
 

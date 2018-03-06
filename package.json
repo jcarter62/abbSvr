@@ -10,10 +10,11 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
-    "cors": "^2.8.4",
-    "etag": "^1.8.1",
     "body-parser": "~1.18.2",
+    "cors": "^2.8.4",
     "debug": "~2.6.9",
-    "express": "~4.15.5"
+    "etag": "^1.8.1",
+    "express": "~4.15.5",
+    "winston": "^2.4.0"
   }
 }
