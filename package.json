@@ -1,0 +1,19 @@
+{
+  "name": "abbsvr",
+  "version": "0.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Jim Carter",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.4",
+    "etag": "^1.8.1",
+    "body-parser": "~1.18.2",
+    "debug": "~2.6.9",
+    "express": "~4.15.5"
+  }
+}
