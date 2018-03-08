@@ -66,28 +66,38 @@ app.post('/api/login', function(req, res) {
   let pass = req.body.UserPass;
 
   let baseUrl = process.env.APIBASE;
-  let api = 'wp-sp-authorize';
+  let api = 'sp-auth-app';
   let url = baseUrl + api;
   let apikey = process.env.APIKEY;
+  let params = {
+    'UserName': user,
+    'UserPass': pass,
+    'App': 'ABB Log'
+  };
+  let headers = {
+    'headers': { "x-cdata-authtoken": apikey }
+  };
 
   axios
-    .post(url, {
-      UserName: user,
-      UserPass: pass,
-      App: 'ABB Log'
-    }, {
-      headers: { "x-cdata-authtoken": apikey }
-    })
+    .post(url, params, headers )
     .then(response => {
       let data = response.data.value;
       let obj = data[0];
 
-      let results = {"value": obj.result  };
+      let results = {"value": obj  };
 
       res.send(results);
     })
     .catch(err => {
+      let ErrResult = {
+        'value': {
+          'Name': '',
+          'Email': '',
+          'AuthResult': 'failed'
+        }
+      };
       console.log(err);
+      res.send(ErrResult);
     });
 });
 
