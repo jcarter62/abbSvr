@@ -26,12 +26,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //
 // Add the body parameters to the log output.
-// 
+//
 morgan.token('body', function getBody(req) {
   let tempBody = req.body;
   if ( tempBody.UserPass !== undefined ) {
     tempBody.UserPass = '*****';
   }
+
+  let hdrs = req.headers;
+  let realip = hdrs["x-real-ip"];
+  if ( realip !== undefined ) {
+    tempBody.ip = realip
+  }
+
   return JSON.stringify(tempBody);
 });
 
