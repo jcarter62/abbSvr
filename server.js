@@ -33,16 +33,27 @@ morgan.token('body', function getBody(req) {
     tempBody.UserPass = '*****';
   }
 
-  let hdrs = req.headers;
-  let realip = hdrs["x-real-ip"];
-  if ( realip !== undefined ) {
-    tempBody.ip = realip
-  }
-
+  // let hdrs = req.headers;
+  // let realip = hdrs["x-real-ip"];
+  // if ( realip !== undefined ) {
+  //   tempBody.ip = realip
+  // }
+  //
   return JSON.stringify(tempBody);
 });
 
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :body ' ));
+morgan.token('x-real-ip', function getip(req) {
+  let tmpIP = '';
+
+  let hdrs = req.headers;
+  let realip = hdrs["x-real-ip"];
+  if ( realip !== undefined ) {
+    tmpIP = realip
+  }
+  return tmpIP;
+});
+
+app.use(morgan(':x-real-ip - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :body ' ));
 
 app.post('/api/laterals', function(req, res) {
 
