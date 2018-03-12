@@ -24,7 +24,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//
 // Add the body parameters to the log output.
+// 
 morgan.token('body', function getBody(req) {
   let tempBody = req.body;
   if ( tempBody.UserPass !== undefined ) {
