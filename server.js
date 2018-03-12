@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const winston = require('winston');
+const morgan = require('morgan');
 
 const logger = new ( winston.Logger ) (
   {
@@ -17,19 +18,22 @@ const etag = require('etag');
 
 const app = express();
 
+
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let logOrigin = function( req, res, next ) {
-  logger.log('info', '%s Origin:%s, URL:%s ', new Date() , req.headers.origin, req.url );
-  next();
-};
+// Add the body parameters to the log output.
+morgan.token('body', function getBody(req) {
+  let tempBody = req.body;
+  if ( tempBody.UserPass !== undefined ) {
+    tempBody.UserPass = '*****';
+  }
+  return JSON.stringify(tempBody);
+});
 
-app.use(logOrigin);
-
-
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :body ' ));
 
 app.post('/api/laterals', function(req, res) {
 
